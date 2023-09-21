@@ -59,7 +59,7 @@ fillZeros <- function(raw) {
   # Remove columns with no data
   raw <- raw[, c(TRUE, TRUE, colSums(raw[,3:ncol(raw)]) > 0)]
   
-  # Convert 0 values to 1/5 of the min of that lipid
+  # Convert 0 values to 1/5 of the min of that compound
   for(i in 3:NCOL(raw)) {
     
     if(0 %in% raw[,i]) {
@@ -195,7 +195,7 @@ plotHeatmap <- function(N, comparison_name, params, norm, stats) {
            annotation_col = annotation_col,
            color = colorRampPalette(c("blue", "white", "red"))(50),
            annotation_colors = annotation_colors,
-           filename = paste(comparison_name, "_top", N, "_genes.png", sep = ""))
+           filename = paste(comparison_name, "_top", N, "_compounds.png", sep = ""))
   
 }
 
@@ -235,9 +235,9 @@ norm <- normalizeData(peaks) # Normalize data
 # PCA
 pcaTransform(norm)
 
-# Find significantly different lipids
+# Find significantly different compounds
 stats <- analyzeData(peaks, norm, parameters) # pairwise t-test
-write.table(stats, paste(comparison_name, '_significant_lipids.tsv', sep=''), row.names=F, sep="\t")
+write.table(stats, paste(comparison_name, '_significant_compounds.tsv', sep=''), row.names=F, sep="\t")
 
 # Plot data
 plotHeatmap(as.numeric(parameters[5]), comparison_name, parameters, norm, stats)
