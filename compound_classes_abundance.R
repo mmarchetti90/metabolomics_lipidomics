@@ -196,7 +196,7 @@ peaks <- read.delim(as.character(parameters[1]), header=TRUE, sep="\t", check.na
 peaks[,2] <- gsub(' ', '_', peaks[,2])
 
 # Select groups of interest
-if((! parameters[3] %in% peaks$Group) | (! parameters[4] %in% peaks$Group)) {
+if((! parameters[3] %in% peaks[,2]) | (! parameters[4] %in% peaks[,2])) {
   
   print("ERROR: wrong categories")
   quit(save="no", status=1)

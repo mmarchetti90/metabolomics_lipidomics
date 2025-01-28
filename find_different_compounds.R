@@ -178,11 +178,11 @@ plotHeatmap <- function(N, comparison_name, params, norm, stats) {
   
   # Subset dataset
   top <- t(norm[,3:NCOL(norm)])
-  colnames(top) <- seq(1, NCOL(top))
+  colnames(top) <- norm[, 1]
   top <- top[rownames(top) %in% stats[1:N,]$Compound,]
   
   # Prepare annotation colors
-  annotation_col <- data.frame(SampleType = norm[,2], row.names = colnames(top))
+  annotation_col <- data.frame(SampleType = norm[,2], row.names = norm[,1])
   annotation_colors <- list("SampleType" = c(Group1 = "red", Group2 = "green"))
   names(annotation_colors$SampleType) = params[2 : 3]
   
