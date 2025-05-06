@@ -21,12 +21,12 @@ def get_data():
     rhea_reactions = parse_rhea(gzip.decompress(rq.content).decode('utf8', 'ignore'))
     
     ### RefMet
-    ### Download it from https://www.metabolomicsworkbench.org/databases/refmet/browse.php
 
-    print('Parsing RefMet')
+    print('Downloading RefMet')
     
-    path = argv[argv.index('--refmet') + 1]
-    refmet = pd.read_csv(path, sep=',', index_col=None, header=0)
+    url = 'https://www.metabolomicsworkbench.org/databases/refmet/refmet_download.php'
+    rq = requests.get(url)
+    refmet = pd.read_csv(StringIO(rq.text), sep=',', index_col=None, header=0)
     refmet = refmet.loc[~ refmet.chebi_id.isna(),]
     refmet = refmet[['chebi_id', 'refmet_name', 'main_class']]
     refmet['chebi_id'] = refmet['chebi_id'].astype(int).astype(str) # ChEBI IDs are strings in rhea_reactions
@@ -169,6 +169,13 @@ from sys import argv
 
 species, rhea_reactions, refmet, chebi_to_compounds, enzyme_to_uniprot, uniprot_to_ensembl = get_data()
 
+### Standardize compound names in chebi_to_compounds
+
+
+chebi_to_compounds = {c_id : refmet.loc[refmet['chebi_id'] == c_id, 'refmet_name'].values[0] if c_id in refmet['chebi_id'].values else
+                      c_name
+                      for c_id,c_name in chebi_to_compounds.items()}
+
 ### Collapse RefMet to main_class
 
 chebi_to_main_class = {cid : mc for _,(cid, _, mc) in refmet.loc[refmet.chebi_id != ''].iterrows()}
@@ -231,6 +238,7 @@ enzymes_db = enzymes_db.drop_duplicates()
 
 ### Save to file
 
+refmet.to_csv('refmet_db.csv.gz', sep=',', index=False, header=True) # csv for compatibility with raw file downloaded from RefMet
 reactions_db.to_csv(f'reactions_db_{species.lower().replace(" ", "_")}.tsv.gz', sep='\t', index=False, header=True)
 compounds_db.to_csv(f'compounds_db_{species.lower().replace(" ", "_")}.tsv.gz', sep='\t', index=False, header=True)
 enzymes_db.to_csv(f'enzymes_db_{species.lower().replace(" ", "_")}.tsv.gz', sep='\t', index=False, header=True)

@@ -16,9 +16,9 @@ Tools for metabolomics and lipidomics analyses
   Python class for validating metabolite/lipid names to RefMet standard.
   Will also output metabolite/lipid classes information.
 
-- build_database.py
-  Python script to generate a database for the interpolate_rna_lipidomics.py script
+- build_database_rhea.py
+  Python script to generate a database for the interpolate_rna_lipidomics_rhea.py script
 
-- interpolate_rna_lipidomics.py
+- interpolate_rna_lipidomics_rhea.py
   Python script to interpolate RNASeq and lipidomics data based on a database built on the Rhea
   reactions database.
