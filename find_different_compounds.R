@@ -237,6 +237,7 @@ pcaTransform(norm)
 
 # Find significantly different compounds
 stats <- analyzeData(peaks, norm, parameters) # pairwise t-test
+stats <- stats[order(stats$pval),]
 write.table(stats, paste(comparison_name, '_significant_compounds.tsv', sep=''), row.names=F, sep="\t")
 
 # Plot data

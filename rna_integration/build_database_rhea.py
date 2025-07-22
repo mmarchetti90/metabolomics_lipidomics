@@ -171,7 +171,6 @@ species, rhea_reactions, refmet, chebi_to_compounds, enzyme_to_uniprot, uniprot_
 
 ### Standardize compound names in chebi_to_compounds
 
-
 chebi_to_compounds = {c_id : refmet.loc[refmet['chebi_id'] == c_id, 'refmet_name'].values[0] if c_id in refmet['chebi_id'].values else
                       c_name
                       for c_id,c_name in chebi_to_compounds.items()}
