@@ -46,6 +46,7 @@ def get_data():
     
     species_renamed = ('HUMAN' if species == 'Homo sapiens' else
                        'MOUSE' if species == 'Mus musculus' else
+                       'DROME' if species == 'Drosophila melanogaster' else
                        'NOT SUPPORTED')
     
     url = 'https://ftp.expasy.org/databases/enzyme/enzyme.dat'
@@ -56,6 +57,7 @@ def get_data():
     
     file = ('HUMAN_9606_idmapping.dat.gz' if species == 'Homo sapiens' else
             'MOUSE_10090_idmapping.dat.gz' if species == 'Mus musculus' else
+            'DROME_7227_idmapping.dat.gz' if species == 'Drosophila melanogaster' else
             'NOT SUPPORTED')
     
     url = f'https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/{file}'
