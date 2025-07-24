@@ -64,7 +64,8 @@ def get_data():
     rq = requests.get(url)
     uniprot_to_ensembl = pd.read_csv(StringIO(gzip.decompress(rq.content).decode('utf8', 'ignore')), sep='\t', index_col=None, header=None)
     uniprot_to_ensembl.columns = ['uniprot', 'origin', 'ensembl']
-    uniprot_to_ensembl = uniprot_to_ensembl.loc[uniprot_to_ensembl.origin == 'Ensembl']
+    origin_type = 'FlyBase' if species == 'Drosophila melanogaster' else 'Ensembl'
+    uniprot_to_ensembl = uniprot_to_ensembl.loc[uniprot_to_ensembl.origin == origin_type]
     uniprot_to_ensembl = {row.uniprot : row.ensembl.split('.')[0] for _,row in uniprot_to_ensembl.iterrows()}
 
     return species, rhea_reactions, refmet, chebi_to_compounds, enzyme_to_uniprot, uniprot_to_ensembl
@@ -146,7 +147,7 @@ def parse_enzyme_db(enz, sp):
             
             elif line.startswith('DR'):
                 
-                uniprot.extend([l.split(',')[0] for l in line.replace('DR', '').replace(' ', '').split(';') if l.endswith(sp)])
+                uniprot.extend([l.split(',')[0] for l in line[2:].replace(' ', '').split(';') if l.endswith(sp)])
             
             else:
                 
