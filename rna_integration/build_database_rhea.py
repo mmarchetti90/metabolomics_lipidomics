@@ -35,7 +35,8 @@ def get_data():
 
     print('Downloading ChEBI compounds')
     
-    url = 'https://ftp.ebi.ac.uk/pub/databases/chebi/Flat_file_tab_delimited/compounds.tsv.gz'
+    #url = 'https://ftp.ebi.ac.uk/pub/databases/chebi/Flat_file_tab_delimited/compounds.tsv.gz'
+    url = 'https://ftp.ebi.ac.uk/pub/databases/chebi-2/flat_files/compounds.tsv.gz'
     rq = requests.get(url)
     chebi_compounds = pd.read_csv(StringIO(gzip.decompress(rq.content).decode('utf8', 'ignore')), sep='\t', index_col=None, header=0)
     chebi_compounds.columns = ['chebi_id', 'status', 'chebi_accession', 'source', 'parent_id', 'compound_name', 'definition', 'modified_on', 'created_by', 'star']

@@ -203,7 +203,7 @@ if((! parameters[3] %in% peaks[,2]) | (! parameters[4] %in% peaks[,2])) {
   
 } else {
   
-  peaks <- peaks[(peaks$Group == parameters[3]) | (peaks$Group == parameters[4]), ]
+  peaks <- peaks[(peaks[,2] == parameters[3]) | (peaks[,2] == parameters[4]), ]
   
 }
 
